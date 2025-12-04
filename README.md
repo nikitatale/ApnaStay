@@ -1,7 +1,7 @@
 # ApnaStay - Find Your Perfect Stay!
 
 ApnaStay is a **Full-Stack Web Application** built using **Node.js, Express, EJS, MongoDB, and Bootstrap**.
-It allows users to **browse, search, and book accommodations**, providing a seamless experience similar to Airbnb. 
+It allows users to **browse, search, providing a seamless experience. 
 The project follows the **MVC (Model-View-Controller) architecture** for clean and organized code.
 
 ---
