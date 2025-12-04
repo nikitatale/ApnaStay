@@ -32,9 +32,9 @@ The project follows the **MVC (Model-View-Controller) architecture** for clean a
 
 ## Usage
 
-Register a new account or log in
-Explore property listings
-Add, edit, or delete your listings
+- **Register** a new account or log in
+- **Explore** property listings
+- **Add**, **edit**, or **delete** your listings
+  
 
-
-Suggestions are Welcome!
+**Suggestions are Welcome!**
