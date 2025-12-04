@@ -1,0 +1,172 @@
+body{
+     font-family: 'Plus Jakarta Sans', sans-serif !important;
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
+
+iframe{
+  filter: invert(100%);
+}
+
+.navbar {
+    height:  5rem;
+    background-color: white;
+}
+
+
+.nav-link{
+    color: #222 !important;
+}
+
+/* footer */
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info-links, .f-info-socials, .f-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i{
+ margin-right: 1.6rem;
+ font-size: 1.3rem; 
+}
+
+.f-info{
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+
+
+/* cards */
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text {
+    font-weight: 400 !important;
+}
+
+.listing-link{
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listing-link:hover{
+    transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 0.1;
+    background-color: white;
+}
+
+.add-btn{
+ 
+    border: none !important;
+    padding: .7rem 1.5rem !important;
+}
+
+.edit-btn{
+  
+    border: none !important;
+    padding: .7rem 1.9rem !important;
+}
+
+
+/* show page */
+
+.card-image{
+ height: 50vh;
+}
+
+.btns{
+    display: flex;
+}
+
+.show-cards{
+  padding-left: 0;
+  padding-right: 0;   
+}
+
+
+@media (max-width: 768px) {
+  .navbar-collapse {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 0;
+  }
+}  
+
+
+/* navbar transparent background */
+  #mainNavbar {
+    background-color: transparent;
+    transition: all 0.5s ease;
+  }
+
+
+  #mainNavbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  #mainNavbar .nav-link {
+    color: white;
+    transition: color 0.3s ease;
+  }
+
+  #mainNavbar.scrolled .nav-link {
+    color: #333;
+  }
+
+  #mainNavbar .logo {
+    transition: filter 0.5s ease;
+  }
+
+  #mainNavbar.scrolled .logo {
+    filter: invert(1) opacity(0.8);
+  }

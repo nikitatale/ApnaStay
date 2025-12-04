@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApnaStay</title>
+     <link rel="icon" type="image/png" href="/assets/Apna_Stay-logo.png">
+     
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+     
+    <!-- fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- icons links -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+
+     <!-- starability link -->
+      <link rel="stylesheet" href="/css/rating.css">
+
+      <!-- map -->
+
+      
+
+
+</head>
+<body>
+    <%- include("../includes/navbar.ejs") %>
+
+    <div class="container">
+        <%- include("../includes/flash.ejs") %>
+        <%- body %> 
+    </div>
+    
+    <%- include("../includes/footer.ejs") %> 
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+    </body>
+</html>

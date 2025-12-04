@@ -1,0 +1,168 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+#filters{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;      
+  align-items: center;
+  gap: 1.8rem;                  
+  padding: 1.5rem 0;
+}
+
+.filter{
+  text-align: center;
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+  width: 80px;                
+}
+
+.filter:hover{
+  opacity: 1;
+  cursor: pointer;
+  transform: scale(1.08);     
+}
+
+.filter i{
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.filter p {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.active-filter {
+  opacity: 1 !important;
+  border-bottom: 2px solid black;
+}
+
+.badge{
+  display: none;
+}
+
+@media (max-width: 576px){
+  #filters{
+    overflow-x: auto;         
+    white-space: nowrap;
+    flex-wrap: nowrap;         
+    justify-content: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .filter{
+    width: 70px;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 991px) {
+  #filters{
+    overflow-x: auto;        
+    white-space: nowrap;    
+    flex-wrap: nowrap;      
+    justify-content: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
+  .filter{
+    width: 70px;
+    display: inline-block;
+  }
+}
+</style>
+
+<div id="filters">
+  <div class="filter" data-category="Trending">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  <div class="filter" data-category="Rooms">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
+  <div class="filter" data-category="IconicCities">
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    <p>Iconic Cities</p>
+  </div>
+  <div class="filter" data-category="Mountains">
+    <div><i class="fa-solid fa-mountain"></i></div>
+    <p>Mountains</p>
+  </div>
+  <div class="filter" data-category="AmazingPools">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Pools</p>
+  </div>
+  <div class="filter" data-category="Camping">
+    <div><i class="fa-solid fa-campground"></i></div>
+    <p>Camping</p>
+  </div>
+  <div class="filter" data-category="Beach">
+    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+    <p>Beach</p>
+  </div>
+  <div class="filter" data-category="Farms">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </div>
+  
+
+  <div class="tax-toggle border rounded-pill p-3">
+    <div class="form-check form-switch form-check-reverse">
+      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Include Taxes</label>
+    </div>
+  </div>
+</div>
+
+<div class="container pt-3">
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-3">
+    <% for(let i = 0; i < allListings.length; i++){ 
+         let listing = allListings[i]; 
+         let gst = Math.floor(Math.random() * 15) + 5; 
+    %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="col p-2">
+        <div class="card m-0 p-0">
+          <img src="<%= listing.image.url %>" class="card-img-top m-0 p-0" style="height:20rem; object-fit:cover;">
+          <div class="card-img-overlay"></div>
+          <div class="card-body px-3 py-2">
+            <p class="card-title mb-0"><b><%= listing.title %></b></p>
+            <p class="mb-0">
+              &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+              <% if(i % 2 !== 0){ %>
+                <span class="badge text-bg-secondary"><%= gst %>% &nbsp; GST</span>
+              <% } %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </a>
+    <% } %>
+  </div>
+</div>
+
+<script>
+let priceToggle = document.getElementById("switchCheckDefault");
+priceToggle.addEventListener("click", () => {
+  let badges = document.getElementsByClassName("badge");
+  for(let badge of badges){
+    badge.style.display = priceToggle.checked ? "inline-block" : "none";
+  }  
+});
+
+
+let filters = document.querySelectorAll(".filter");
+
+  filters.forEach(filter => {
+    filter.addEventListener("click", () => {
+      let category = filter.dataset.category;
+      window.location.href = `/listings?category=${category}`;
+    });
+  });
+</script>
+
