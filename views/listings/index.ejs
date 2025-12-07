@@ -1,168 +1,248 @@
 <% layout("layouts/boilerplate") %>
 
 <style>
-#filters{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;      
-  align-items: center;
-  gap: 1.8rem;                  
-  padding: 1.5rem 0;
-}
-
-.filter{
-  text-align: center;
-  opacity: 0.7;
-  transition: all 0.2s ease-in-out;
-  width: 80px;                
-}
-
-.filter:hover{
-  opacity: 1;
-  cursor: pointer;
-  transform: scale(1.08);     
-}
-
-.filter i{
-  font-size: 1.2rem;
-  margin-bottom: 0.3rem;
-}
-
-.filter p {
-  font-size: 0.82rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.active-filter {
-  opacity: 1 !important;
-  border-bottom: 2px solid black;
-}
-
-.badge{
-  display: none;
-}
-
-@media (max-width: 576px){
-  #filters{
-    overflow-x: auto;         
-    white-space: nowrap;
-    flex-wrap: nowrap;         
-    justify-content: flex-start;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.8rem;
+    padding: 1.5rem 0;
   }
-  .filter{
-    width: 70px;
-    display: inline-block;
-  }
-}
 
-@media (max-width: 991px) {
-  #filters{
-    overflow-x: auto;        
-    white-space: nowrap;    
-    flex-wrap: nowrap;      
-    justify-content: flex-start;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    -ms-overflow-style: none;  
-    scrollbar-width: none; 
+  .filter {
+    text-align: center;
+    opacity: 0.7;
+    transition: all 0.2s ease-in-out;
+    width: 80px;
   }
-  .filter{
-    width: 70px;
-    display: inline-block;
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(1.08);
   }
-}
+
+  .filter i {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .filter p {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .active-filter {
+    opacity: 1 !important;
+    border-bottom: 2px solid black;
+  }
+
+  .badge {
+    display: none;
+  }
+
+  .pagination a {
+    padding: 8px 14px;
+    margin: 0 4px;
+    background: #222;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  .pagination a.active {
+    background: crimson;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 576px) {
+    #filters {
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    #filters::-webkit-scrollbar {
+      display: none;
+    }
+    .filter {
+      width: 70px;
+      display: inline-block;
+    }
+  }
+
+  @media (max-width: 991px) {
+    #filters {
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    #filters::-webkit-scrollbar {
+      display: none;
+    }
+    .filter {
+      width: 70px;
+      display: inline-block;
+    }
+  }
 </style>
 
 <div id="filters">
-  <div class="filter" data-category="Trending">
-    <div><i class="fa-solid fa-fire"></i></div>
+  <div
+    class="filter <%= category === 'Trending' ? 'active-filter' : '' %>"
+    data-category="Trending"
+  >
+    <i class="fa-solid fa-fire"></i>
     <p>Trending</p>
   </div>
-  <div class="filter" data-category="Rooms">
-    <div><i class="fa-solid fa-bed"></i></div>
+  <div
+    class="filter <%= category === 'Rooms' ? 'active-filter' : '' %>"
+    data-category="Rooms"
+  >
+    <i class="fa-solid fa-bed"></i>
     <p>Rooms</p>
   </div>
-  <div class="filter" data-category="IconicCities">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-    <p>Iconic Cities</p>
+  <div
+    class="filter <%= category === 'IconicCities' ? 'active-filter' : '' %>"
+    data-category="IconicCities"
+  >
+    <i class="fa-solid fa-mountain-city"></i>
+    <p>Iconic</p>
   </div>
-  <div class="filter" data-category="Mountains">
-    <div><i class="fa-solid fa-mountain"></i></div>
+  <div
+    class="filter <%= category === 'Mountains' ? 'active-filter' : '' %>"
+    data-category="Mountains"
+  >
+    <i class="fa-solid fa-mountain"></i>
     <p>Mountains</p>
   </div>
-  <div class="filter" data-category="AmazingPools">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
+  <div
+    class="filter <%= category === 'AmazingPools' ? 'active-filter' : '' %>"
+    data-category="AmazingPools"
+  >
+    <i class="fa-solid fa-person-swimming"></i>
     <p>Pools</p>
   </div>
-  <div class="filter" data-category="Camping">
-    <div><i class="fa-solid fa-campground"></i></div>
+  <div
+    class="filter <%= category === 'Camping' ? 'active-filter' : '' %>"
+    data-category="Camping"
+  >
+    <i class="fa-solid fa-campground"></i>
     <p>Camping</p>
   </div>
-  <div class="filter" data-category="Beach">
-    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+  <div
+    class="filter <%= category === 'Beach' ? 'active-filter' : '' %>"
+    data-category="Beach"
+  >
+    <i class="fa-solid fa-umbrella-beach"></i>
     <p>Beach</p>
   </div>
-  <div class="filter" data-category="Farms">
-    <div><i class="fa-solid fa-cow"></i></div>
+  <div
+    class="filter <%= category === 'Farms' ? 'active-filter' : '' %>"
+    data-category="Farms"
+  >
+    <i class="fa-solid fa-cow"></i>
     <p>Farms</p>
   </div>
-  
 
-  <div class="tax-toggle border rounded-pill p-3">
+  <div class="tax-toggle border rounded-pill p-3 ms-3">
     <div class="form-check form-switch form-check-reverse">
-      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-      <label class="form-check-label" for="switchCheckDefault">Include Taxes</label>
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="switchCheckDefault"
+      />
+      <label class="form-check-label" for="switchCheckDefault"
+        >Include Taxes</label
+      >
     </div>
   </div>
 </div>
 
 <div class="container pt-3">
   <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-3">
-    <% for(let i = 0; i < allListings.length; i++){ 
-         let listing = allListings[i]; 
-         let gst = Math.floor(Math.random() * 15) + 5; 
-    %>
+    <% allListings.forEach((listing, i) => { let gst = Math.floor(Math.random()
+    * 15) + 5; %>
     <a href="/listings/<%= listing._id %>" class="listing-link">
       <div class="col p-2">
-        <div class="card m-0 p-0">
-          <img src="<%= listing.image.url %>" class="card-img-top m-0 p-0" style="height:20rem; object-fit:cover;">
-          <div class="card-img-overlay"></div>
+        <div class="card">
+          <img
+            src="<%= listing.image.url.replace('/upload', '/upload/w_600,q_auto,f_auto') %>"
+            loading="lazy"
+            class="card-img-top"
+            style="height: 20rem; object-fit: cover"
+          />
           <div class="card-body px-3 py-2">
             <p class="card-title mb-0"><b><%= listing.title %></b></p>
             <p class="mb-0">
-              &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-              <% if(i % 2 !== 0){ %>
-                <span class="badge text-bg-secondary"><%= gst %>% &nbsp; GST</span>
+              ₹ <%= listing.price.toLocaleString("en-IN") %> / night <% if(i % 2
+              !== 0){ %>
+              <span class="badge text-bg-secondary"><%= gst %>% GST</span>
               <% } %>
             </p>
           </div>
         </div>
       </div>
     </a>
-    <% } %>
+    <% }) %>
   </div>
 </div>
 
+<div class="pagination mt-4 mb-5">
+  <% if(currentPage > 1){ %>
+  <a
+    href="/listings?page=<%= currentPage - 1 %><%= category ? '&category=' + category : '' %>"
+    >⬅ Prev</a
+  >
+  <% } %> <% for(let i = 1; i <= totalPages; i++){ %>
+  <a
+    href="/listings?page=<%= i %><%= category ? '&category=' + category : '' %>"
+    class="<%= currentPage === i ? 'active' : '' %>"
+    ><%= i %></a
+  >
+  <% } %> <% if(currentPage < totalPages){ %>
+  <a
+    href="/listings?page=<%= currentPage + 1 %><%= category ? '&category=' + category : '' %>"
+    >Next ➡</a
+  >
+  <% } %>
+</div>
+
 <script>
-let priceToggle = document.getElementById("switchCheckDefault");
-priceToggle.addEventListener("click", () => {
-  let badges = document.getElementsByClassName("badge");
-  for(let badge of badges){
-    badge.style.display = priceToggle.checked ? "inline-block" : "none";
-  }  
-});
+  let priceToggle = document.getElementById("switchCheckDefault");
+  if (priceToggle) {
+    priceToggle.addEventListener("click", () => {
+      let badges = document.getElementsByClassName("badge");
+      for (let badge of badges) {
+        badge.style.display = priceToggle.checked ? "inline-block" : "none";
+      }
+    });
+  }
 
-
-let filters = document.querySelectorAll(".filter");
-
-  filters.forEach(filter => {
+  let filters = document.querySelectorAll(".filter");
+  filters.forEach((filter) => {
     filter.addEventListener("click", () => {
       let category = filter.dataset.category;
       window.location.href = `/listings?category=${category}`;
     });
   });
 </script>
-

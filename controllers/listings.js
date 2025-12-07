@@ -1,16 +1,26 @@
 const Listing = require("../models/listing.js");
 
 module.exports.index = async (req, res) => {
-  const { category } = req.query;  
-  let allListings;
+  const { category } = req.query;
+  const page = parseInt(req.query.page) || 1; 
+  const limit = 8; 
+  const query = category ? { category } : {};
 
-  if (category) {
-    allListings = await Listing.find({ category });
-  } else {
-    allListings = await Listing.find({});
-  }
-  res.render("listings/index", { allListings, category });
+  const totalListings = await Listing.countDocuments(query);
+  const totalPages = Math.ceil(totalListings / limit);
+
+  const allListings = await Listing.find(query)
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+  res.render("listings/index", { 
+    allListings, 
+    category, 
+    currentPage: page, 
+    totalPages 
+  });
 };
+
 
 
 module.exports.RenderNewForm = (req, res) => {
