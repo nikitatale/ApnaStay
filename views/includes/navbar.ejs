@@ -190,11 +190,11 @@
     </button>
 
     <div class="collapse navbar-collapse" id="apnaNavbar">
-      <form class="nav-search-form ms-4 me-auto d-none d-md-flex" role="search">
-        <i class="fa-solid fa-magnifying-glass" style="color:var(--muted);font-size:0.85rem;"></i>
-        <input type="search" placeholder="Search destinations" />
-        <button type="submit" class="nav-search-btn">Search</button>
-      </form>
+    <form class="nav-search-form ms-4 me-auto d-none d-md-flex" role="search" onsubmit="handleAiSearch(event)">
+     <i class="fa-solid fa-magnifying-glass" style="color:var(--muted);font-size:0.85rem;"></i>
+     <input type="search" id="navSearchInput" placeholder="Try: beach under 2000..." />
+    <button type="submit" class="nav-search-btn">Search</button>
+   </form>
 
       <ul class="navbar-nav align-items-center gap-1 ms-auto">
         <li class="nav-item">
@@ -228,3 +228,47 @@
     </div>
   </div>
 </nav>
+
+
+<script>
+  async function handleAiSearch(e) {
+    e.preventDefault();
+    const query = document.getElementById("navSearchInput").value.trim();
+    if(!query) return;
+
+    // loading
+    const btn = document.querySelector(".nav-search-btn");
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Wait';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch("/ai-search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+
+      const data = await res.json();
+
+      if(data.listings.length === 0) {
+        alert("No listings found for your search!");
+        btn.textContent = "Search";
+        btn.disabled = false;
+        return;
+      }
+
+      // Store results in sessionStorage
+      sessionStorage.setItem("aiSearchResults", JSON.stringify(data.listings));
+      sessionStorage.setItem("aiSearchQuery", query);
+
+      // Redirect to search results page
+      window.location.href = "/listings/ai-results";
+
+    } catch(err) {
+      alert("Search failed, try again!");
+    }
+
+    btn.textContent = "Search";
+    btn.disabled = false;
+  }
+</script>

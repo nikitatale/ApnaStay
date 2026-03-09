@@ -75,6 +75,20 @@
   }
   .btn-add:hover { background: var(--lime-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,245,59,0.2); }
 
+  .btn-ai {
+    margin-top: 0.6rem;
+    background: transparent;
+    border: 1px solid rgba(201,245,59,0.3);
+    color: var(--lime);
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 700; font-size: 0.78rem;
+    padding: 0.4rem 1rem; border-radius: 6px;
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-ai:hover { background: rgba(201,245,59,0.08); border-color: var(--lime); }
+  .btn-ai:disabled { opacity: 0.5; cursor: not-allowed; }
+
   .invalid-feedback { font-size: 0.78rem; color: #ff6b6b; }
   .valid-feedback { font-size: 0.78rem; color: var(--lime); }
 </style>
@@ -85,21 +99,29 @@
     <p class="form-page-sub">Fill in the details and start hosting today</p>
 
     <form method="post" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+
       <div class="mb-3">
         <label class="form-label">Title</label>
         <input type="text" class="form-control" name="listing[title]" placeholder="e.g. Cozy Himalayan Cottage" required>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Title is required</div>
       </div>
+
+      
       <div class="mb-3">
         <label class="form-label">Description</label>
-        <textarea name="listing[description]" class="form-control" rows="3" required placeholder="Describe your place..."></textarea>
+        <textarea name="listing[description]" id="descriptionArea" class="form-control" rows="3" required placeholder="Describe your place..."></textarea>
         <div class="invalid-feedback">Short description required</div>
+        <button type="button" class="btn-ai" id="generateBtn" onclick="generateDescription()">
+          <span id="generateBtnText"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate with AI</span>
+        </button>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Upload Image</label>
         <input type="file" class="form-control" name="listing[image]" required>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Price per Night (₹)</label>
         <div class="input-icon-wrap">
@@ -148,3 +170,47 @@
     </form>
   </div>
 </div>
+
+<script>
+  async function generateDescription() {
+    const title    = document.querySelector('[name="listing[title]"]').value.trim();
+    const location = document.querySelector('[name="listing[location]"]').value.trim();
+    const country  = document.querySelector('[name="listing[country]"]').value.trim();
+    const category = document.querySelector('[name="listing[category]"]').value;
+    const price    = document.querySelector('[name="listing[price]"]').value.trim();
+    const btn      = document.getElementById("generateBtn");
+    const btnText  = document.getElementById("generateBtnText");
+
+    if (!title || !location) {
+      alert("Please fill Title and Location first!");
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.innerHTML =  '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';;
+
+    try {
+      const res = await fetch("/generate-description", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, location, country, category, price })
+      });
+
+      const data = await res.json();
+      document.getElementById("descriptionArea").value = data.description;
+
+      btnText.innerHTML = '<i class="fa-solid fa-circle-check"></i> Done';
+      setTimeout(() => {
+        btnText.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Generate with AI'
+        btn.disabled = false;
+      }, 2000);
+
+    } catch (err) {
+      btnText.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Failed, try again'; 
+      setTimeout(() => {
+       btnText.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Generate with AI'
+        btn.disabled = false;
+      }, 2000);
+    }
+  }
+</script>

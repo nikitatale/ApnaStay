@@ -332,11 +332,6 @@
     <div class="hero-label"><i class="fa-solid fa-wand-magic-sparkles"></i> India's boldest stays</div>
     <h1 class="hero-tagline">Find Your<br><em>Apna Stay</em></h1>
     <p class="hero-sub">Mountains, beaches, farms & everything in between</p>
-    <div class="hero-search">
-      <i class="fa-solid fa-magnifying-glass" style="color:var(--muted);font-size:0.9rem;"></i>
-      <input type="text" placeholder="Where do you want to go?" id="heroSearchInput" />
-      <button onclick="handleHeroSearch()">Search <i class="fa-solid fa-search"></i></button>
-    </div>
   </div>
 </div>
 
@@ -430,8 +425,8 @@
   <% } %>
 </div>
 
-<script>
 
+<script>
   document.querySelectorAll(".filter").forEach(f => {
     f.addEventListener("click", () => {
       window.location.href = `/listings?category=${f.dataset.category}`;
@@ -447,15 +442,6 @@
     btn.style.transform = "scale(1.3)";
     setTimeout(() => btn.style.transform = "", 200);
   }
-
-  function handleHeroSearch() {
-    const val = document.getElementById("heroSearchInput").value.trim();
-    window.location.href = val ? `/listings?search=${encodeURIComponent(val)}` : "/listings";
-  }
-
-  document.getElementById("heroSearchInput").addEventListener("keydown", e => {
-    if(e.key === "Enter") handleHeroSearch();
-  });
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {

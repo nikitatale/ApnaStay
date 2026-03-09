@@ -214,6 +214,45 @@
   </div>
   <% } %>
 
+  <% if(listing.reviews.length >= 3) { %>
+<div class="info-card mt-3 mb-3" id="summaryCard">
+  <div class="d-flex align-items-center justify-content-between">
+    <p class="section-title mb-0" style="font-size:1rem;">AI Review Summary</p>
+    <button
+      type="button"
+      id="summarizeBtn"
+      onclick="summarizeReviews()"
+      style="
+        background: transparent;
+        border: 1px solid rgba(201,245,59,0.3);
+        color: #C9F53B;
+        font-family: 'Cabinet Grotesk', sans-serif;
+        font-weight: 700; font-size: 0.75rem;
+        padding: 0.35rem 0.9rem; border-radius: 6px;
+        cursor: pointer; transition: all 0.2s;
+        display: inline-flex; align-items: center; gap: 0.4rem;
+      "
+      onmouseover="this.style.background='rgba(201,245,59,0.08)'"
+      onmouseout="this.style.background='transparent'"
+    >
+      <span id="summarizeBtnText"><i class="fa-solid fa-wand-magic-sparkles"></i> Summarize</span>
+    </button>
+  </div>
+
+  <div id="summaryResult" style="
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    color: #a0a0a0;
+    line-height: 1.8;
+    display: none;
+    padding: 0.8rem 1rem;
+    background: rgba(201,245,59,0.04);
+    border: 1px solid rgba(201,245,59,0.1);
+    border-radius: 8px;
+  "></div>
+</div>
+<% } %>
+
   <p class="section-title mt-4">All Reviews</p>
   <div class="row g-2 mb-3">
     <% for(let review of listing.reviews) { %>
@@ -242,3 +281,44 @@
   </div>
 
 </div>
+
+
+
+<script>
+  async function summarizeReviews() {
+    const btn     = document.getElementById("summarizeBtn");
+    const btnText = document.getElementById("summarizeBtnText");
+    const result  = document.getElementById("summaryResult");
+
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Summarizing...';
+
+    const reviews = <%- JSON.stringify(listing.reviews.map(r => ({ rating: r.rating, comment: r.comment }))) %>;
+
+    try {
+      const res = await fetch("/summarize-reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews })
+      });
+
+      const data = await res.json();
+
+      result.style.display = "block";
+      result.textContent = data.summary;
+
+      btnText.textContent = "Done!";
+      setTimeout(() => {
+        btnText.innerHTML = '<i class="fa-solid fa-check"></i> Summarized';
+        btn.disabled = false;
+      }, 2000);
+
+    } catch(err) {
+      btnText.textContent = "Failed";
+      setTimeout(() => {
+        btnText.innerHTML = '<i class="fa-solid fa-check"></i> Summarized';
+        btn.disabled = false;
+      }, 2000);
+    }
+  }
+</script>
