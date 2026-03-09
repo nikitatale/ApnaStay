@@ -5,6 +5,20 @@
   </p>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/EJS-B4CA65?style=for-the-badge&logo=ejs&logoColor=black" />
+</p>
+
+---
+
+## 🌐 Live Demo
+
+👉 [Open ApnaStay](https://apna-stay-eosin.vercel.app/listings)
+
+
 ---
 
 ## 🌐 Live Demo
