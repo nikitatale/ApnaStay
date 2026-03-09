@@ -15,13 +15,6 @@
 ---
 
 ## 🌐 Live Demo
-
-👉 [Open ApnaStay](https://apna-stay-eosin.vercel.app/listings)
-
-
----
-
-## 🌐 Live Demo
 👉 [Open ApnaStay](https://apna-stay-eosin.vercel.app/listings)
 
 ---
