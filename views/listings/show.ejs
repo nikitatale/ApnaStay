@@ -1,147 +1,244 @@
 <% layout("layouts/boilerplate") %>
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h3 class="fw-bold"><%= listing.title %></h3>
-    </div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap');
+
+  :root {
+    --bg: #0A0A0A; --surface: #141414; --surface2: #1E1E1E;
+    --text: #F5F0E8; --muted: #5A5A5A; --lime: #C9F53B;
+    --border: rgba(245,240,232,0.08); --card-radius: 12px;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Cabinet Grotesk', sans-serif; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .show-badge {
+    display: inline-block;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--lime);
+    border: 1px solid rgba(201,245,59,0.3);
+    padding: 3px 12px; border-radius: 4px; margin-bottom: 0.8rem;
+  }
+
+  .show-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800; letter-spacing: -0.03em; color: var(--text);
+    line-height: 1.1; margin-bottom: 1.2rem;
+  }
+
+  .show-hero {
+    width: 100%; max-height: 360px; object-fit: cover;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--border);
+    animation: fadeUp 0.6s ease both;
+    display: block;
+  }
+
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .owner-row {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .owner-avatar {
+    width: 38px; height: 38px; background: var(--lime);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    color: #0A0A0A; font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 800; font-size: 1rem; flex-shrink: 0;
+  }
+
+  .owner-name { font-weight: 800; font-size: 0.92rem; color: var(--text); }
+  .owner-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .price-tag {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.5rem; font-weight: 800; color: var(--text);
+  }
+  .price-tag span { font-size: 0.88rem; font-weight: 400; color: var(--muted); }
+
+  .meta-row { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.8rem; }
+  .meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--muted); }
+  .meta-item i { color: var(--lime); font-size: 0.8rem; }
+
+  .btn-edit {
+    background: var(--surface2); color: var(--text);
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 700; font-size: 0.82rem;
+    border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 1.4rem;
+    transition: all 0.2s; text-decoration: none; display: inline-block;
+  }
+  .btn-edit:hover { border-color: var(--lime); color: var(--lime); }
+
+  .btn-delete {
+    background: transparent; color: #ff4444;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 700; font-size: 0.82rem;
+    border: 1px solid rgba(255,68,68,0.3); border-radius: 8px; padding: 0.55rem 1.4rem;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .btn-delete:hover { background: rgba(255,68,68,0.1); border-color: #ff4444; }
+
+  .section-title {
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800;
+    font-size: 1.1rem; color: var(--text); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .form-label {
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 700;
+    font-size: 0.75rem; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .form-control, .form-select {
+    border: 1px solid var(--border); border-radius: 8px;
+    font-family: 'Cabinet Grotesk', sans-serif; font-size: 0.88rem;
+    padding: 0.6rem 1rem; background: var(--surface2) !important;
+    color: var(--text) !important; transition: border-color 0.2s;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: var(--lime); box-shadow: 0 0 0 2px rgba(201,245,59,0.1); outline: none;
+  }
+  .form-control::placeholder { color: var(--muted) !important; }
+
+  .btn-submit-review {
+    background: var(--lime); color: #0A0A0A; border: none;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 0.85rem;
+    border-radius: 8px; padding: 0.6rem 1.8rem; transition: all 0.2s; cursor: pointer;
+  }
+  .btn-submit-review:hover { background: #b0d832; transform: scale(1.03); }
+
+  .review-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius); padding: 1.1rem;
+    transition: border-color 0.2s;
+    height: 100%;
+  }
+  .review-card:hover { border-color: rgba(201,245,59,0.2); }
+
+  .review-username { font-weight: 800; font-size: 0.88rem; color: var(--text); }
+
+  .btn-del-review {
+    background: transparent; color: var(--muted);
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 600; font-size: 0.75rem;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.3rem 1rem; cursor: pointer; transition: all 0.2s;
+    width: 100%; margin-top: 0.8rem;
+  }
+  .btn-del-review:hover { border-color: #ff4444; color: #ff4444; }
+
+  .map-section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--card-radius); padding: 1.4rem;
+    margin-top: 1.5rem; margin-bottom: 3rem;
+  }
+  .map-section iframe { border-radius: 8px; width: 100%; height: 280px; border: 0; }
+</style>
+
+<div class="container py-4" style="max-width:820px;">
+
+  <div style="animation:fadeUp 0.5s ease both;">
+    <span class="show-badge"><%= listing.category || 'Stay' %></span>
+    <h1 class="show-title"><%= listing.title %></h1>
   </div>
 
- 
-  <div class="row justify-content-center mt-4">
-    <div class="col-12 col-md-8 col-lg-6">
-      <div class="card shadow border rounded-3 p-3">
+  <img src="<%= listing.image.url.replace('/upload','/upload/w_1200,q_auto,f_auto') %>"
+    class="show-hero mb-4" alt="<%= listing.title %>" />
 
-        <img 
-          src="<%= listing.image.url %>" 
-          class="card-img-top img-fluid rounded mb-3" 
-          alt="listing-image"
-          style=" height: 250px; width: 100%;"
-        >
-
-        <div class="card-body p-0">
-          <p class="card-text">
-            <i class="bi bi-person-circle me-2"></i>
-           <b><%= listing.owner.username%></b></p>
-          <p class="card-text">
-            <%= listing.description %> </p>
-           <p class="card-text"><span class="fw-bold">&#8377; <%= listing.price.toLocaleString("en-IN") %></span></p>  
-           <p class="card-text"><%= listing.location %></p>
-          <p class="card-text"><%= listing.country %></p>
-        </div>
-
+  <div class="info-card">
+    <div class="owner-row">
+      <div class="owner-avatar"><%= listing.owner.username[0].toUpperCase() %></div>
+      <div>
+        <div class="owner-name"><%= listing.owner.username %></div>
+        <div class="owner-label">Host</div>
       </div>
+    </div>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:0.8rem;"><%= listing.description %></p>
+    <div class="meta-row">
+      <div class="meta-item"><i class="fa-solid fa-location-dot"></i> <%= listing.location %></div>
+      <div class="meta-item"><i class="fa-solid fa-earth-asia"></i> <%= listing.country %></div>
+    </div>
+    <hr style="margin:1rem 0;border-color:var(--border);">
+    <div class="price-tag">₹ <%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></div>
+  </div>
 
-     <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
-      <div class="d-flex justify-content-between mt-4">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4">Edit</a>
+  <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+  <div class="d-flex gap-3 mb-4">
+    <a href="/listings/<%= listing._id %>/edit" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+    <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
+      <button class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
+    </form>
+  </div>
+  <% } %>
 
-        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
-          <button class="btn btn-outline-dark px-4">Delete</button>
+  <% if(currUser) { %>
+  <div class="info-card mt-3">
+    <p class="section-title">Leave a Review</p>
+    <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" name="review[username]" required placeholder="Your name">
+        <div class="invalid-feedback" style="font-size:0.75rem;color:#ff6b6b;">Please enter username</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <fieldset class="starability-slot">
+          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+          <input type="radio" id="first-rate1" name="review[rating]" value="1" /><label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="review[rating]" value="2" /><label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="review[rating]" value="3" /><label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="review[rating]" value="4" /><label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="review[rating]" value="5" /><label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <textarea name="review[comment]" class="form-control" rows="3" required placeholder="Share your experience..."></textarea>
+        <div class="invalid-feedback" style="font-size:0.75rem;color:#ff6b6b;">Comment is required</div>
+      </div>
+      <button class="btn-submit-review">Submit Review <i class="fa-solid fa-arrow-right"></i></button>
+    </form>
+  </div>
+  <% } %>
+
+  <p class="section-title mt-4">All Reviews</p>
+  <div class="row g-2 mb-3">
+    <% for(let review of listing.reviews) { %>
+    <div class="col-12 col-md-6">
+      <div class="review-card">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <div class="owner-avatar" style="width:30px;height:30px;font-size:0.75rem;border-radius:6px;flex-shrink:0;">
+            <%= review.username[0].toUpperCase() %>
+          </div>
+          <div class="review-username"><%= review.username %></div>
+        </div>
+        <p class="starability-result mb-1" data-rating="<%= review.rating %>" style="font-size:0.82rem;"></p>
+        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:0;"><%= review.comment %></p>
+        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+          <button class="btn-del-review"><i class="fa-solid fa-trash"></i> Delete</button>
         </form>
       </div>
-      <% } %>
     </div>
+    <% } %>
   </div>
 
-
-  
-  <div class="row justify-content-center mt-5">
-    <div class="col-12 col-md-10 col-lg-8">
-
-      <% if(currUser) { %>
-      <hr>
-      <h4 class="mb-3">Leave a Review</h4>
-
-        
-
-      <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
-
-        <div class="mb-3">
-          <label class="form-label">Username:</label>
-          <input type="text" class="form-control" name="review[username]" required>
-          <div class="invalid-feedback">Please enter username</div>
-        </div>
-
-<div class="mb-3">
-  <label class="form-label">Rating </label>
-  <fieldset class="starability-slot">
-  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-  <label for="first-rate1" title="Terrible">1 star</label>
-  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-  <label for="first-rate2" title="Not good">2 stars</label>
-  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-  <label for="first-rate3" title="Average">3 stars</label>
-  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-  <label for="first-rate4" title="Very good">4 stars</label>
-  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-  <label for="first-rate5" title="Amazing">5 stars</label>
-</fieldset>
-</div>
-
-        <div class="mb-3">
-          <label class="form-label">Comment:</label>
-          <textarea name="review[comment]" class="form-control" rows="4" required></textarea>
-          <div class="invalid-feedback">Comment is required</div>
-        </div>
-
-        <button class="btn btn-outline-dark">Submit</button>
-      </form>
-  <% } %>
-      <hr class="mt-4">
-
-    
-      
-      <div class="row">
-        <p><b>All Reviews</b></p>
-        <% for(let review of listing.reviews) { %>
-        <div class="col-12 col-md-6 mb-4">
-          <div class="card border shadow-sm h-100 p-3">
-
-            <div class="card-body p-0 mb-2">
-              <h5 class="card-title"><i class="bi bi-person-circle me-2"></i><%= review.username %></h5>
-              <p class="card-text starability-result" data-rating="<%= review.rating %>">
-                Rated: 3 stars
-               </p>
-              <p class="card-text"><%= review.comment %></p>
-            </div>
-             
-            
-            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
-              <button class="btn btn-dark w-100">Delete</button>
-            </form>
-
-          </div>
-        </div>
-        <% } %>
-      </div>
-
-      
-    </div>
+  <div class="map-section">
+    <p class="section-title">Where you'll be</p>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.5950574475!2d72.8789412!3d19.08255545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1764741918934!5m2!1sen!2sin"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 
-
-<br> <hr> <br>
-
-<div class="row justify-content-center mt-5">
-  <div class="col-12 col-md-10 col-lg-8 text-center">
-    <h3 class="mb-3">Where you'll be</h3>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.5950574475!2d72.8789412!3d19.08255545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1764741918934!5m2!1sen!2sin"
-      width="100%"
-      height="60%"
-      style="border:0; border-radius:8px;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
 </div>
-
-
-
-</div>
-
-
-

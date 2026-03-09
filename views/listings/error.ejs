@@ -1,9 +1,69 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-5">
-<div class="alert alert-danger col-6 offset-3" role="alert">
-    <p class="alert-heading"><%= message %></p>
-</div>
-</div>
- 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap');
 
+  :root {
+    --bg: #0A0A0A; --surface: #141414; --surface2: #1E1E1E;
+    --text: #F5F0E8; --muted: #5A5A5A; --lime: #C9F53B;
+    --border: rgba(245,240,232,0.08);
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Cabinet Grotesk', sans-serif; }
+
+  .error-wrap {
+    min-height: 70vh; display: flex;
+    align-items: center; justify-content: center;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .error-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 3rem 2.4rem;
+    text-align: center; max-width: 480px; width: 100%;
+  }
+
+  .error-code {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 6rem; font-weight: 800;
+    color: var(--lime); line-height: 1;
+    letter-spacing: -0.05em; margin-bottom: 0.5rem;
+    opacity: 0.15;
+  }
+
+  .error-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    color: var(--text); margin-bottom: 0.6rem;
+    letter-spacing: -0.02em;
+  }
+
+  .error-msg { color: var(--muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 2rem; }
+
+  .btn-go-home {
+    background: var(--lime); color: #0A0A0A; border: none;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 0.88rem;
+    border-radius: 8px; padding: 0.7rem 2rem;
+    text-decoration: none; transition: all 0.2s; display: inline-block;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-go-home:hover {
+    background: #b0d832; transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,245,59,0.2); color: #0A0A0A;
+  }
+</style>
+
+<div class="container error-wrap">
+  <div class="error-card">
+    <div class="error-code">404</div>
+    <h2 class="error-title">Something went wrong</h2>
+    <p class="error-msg"><%= message %></p>
+    <a href="/listings" class="btn-go-home">← Back to Listings</a>
+  </div>
+</div>

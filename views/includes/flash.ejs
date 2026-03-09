@@ -1,28 +1,85 @@
-<% if(success && success.length ){ %>
+<style>
+  .flash-wrap {
+    position: fixed;
+    top: 1.2rem; right: 1.2rem;
+    z-index: 9999;
+    display: flex; flex-direction: column; gap: 0.6rem;
+    max-width: 360px; width: calc(100% - 2.4rem);
+  }
 
-<div class="alert alert-success alert-dismissible fade show col-6 offset-3 mt-3" role="alert">
+  .flash-toast {
+    display: flex; align-items: flex-start; gap: 0.8rem;
+    padding: 1rem 1.1rem;
+    border-radius: 10px;
+    border: 1px solid;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 0.88rem; font-weight: 500;
+    animation: toastIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
+    backdrop-filter: blur(12px);
+  }
 
- <%= success%>
- <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close">
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
 
- </button>
+  .flash-success {
+    background: rgba(201,245,59,0.08);
+    border-color: rgba(201,245,59,0.25);
+    color: #C9F53B;
+  }
 
+  .flash-error {
+    background: rgba(255,107,107,0.08);
+    border-color: rgba(255,107,107,0.25);
+    color: #ff6b6b;
+  }
+
+  .flash-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+
+  .flash-body { flex: 1; line-height: 1.5; color: #F5F0E8; }
+  .flash-body strong { display: block; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+
+  .flash-close {
+    background: none; border: none; cursor: pointer;
+    color: #5A5A5A; font-size: 1rem; padding: 0;
+    transition: color 0.2s; flex-shrink: 0;
+  }
+  .flash-close:hover { color: #F5F0E8; }
+</style>
+
+<div class="flash-wrap">
+  <% if(success && success.length) { %>
+  <div class="flash-toast flash-success" id="flashSuccess">
+    <span class="flash-icon">✓</span>
+    <div class="flash-body">
+      <strong>Success</strong>
+      <%= success %>
+    </div>
+    <button class="flash-close" onclick="this.parentElement.remove()">✕</button>
+  </div>
+  <% } %>
+
+  <% if(error && error.length) { %>
+  <div class="flash-toast flash-error" id="flashError">
+    <span class="flash-icon">✕</span>
+    <div class="flash-body">
+      <strong>Error</strong>
+      <%= error %>
+    </div>
+    <button class="flash-close" onclick="this.parentElement.remove()">✕</button>
+  </div>
+  <% } %>
 </div>
 
-<% } %>
+<script>
 
-
-
-<% if(error && error.length ){ %>
-
-<div class="alert alert-danger alert-dismissible fade show col-6 offset-3 mt-3" role="alert">
-
- <%= error%>
- <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close">
-
- </button>
-
-</div>
-
-<% } %>
-
+  setTimeout(() => {
+    document.querySelectorAll('.flash-toast').forEach(t => {
+      t.style.transition = 'opacity 0.4s, transform 0.4s';
+      t.style.opacity = '0';
+      t.style.transform = 'translateX(20px)';
+      setTimeout(() => t.remove(), 400);
+    });
+  }, 4000);
+</script>

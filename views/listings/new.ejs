@@ -1,67 +1,150 @@
 <% layout("/layouts/boilerplate") %>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap');
 
-    <div class="row">
-      <div class="col-8 offset-2">
-        <br> <br>
-    <h3>Create a New Listing</h3>
+  :root {
+    --bg: #0A0A0A; --surface: #141414; --surface2: #1E1E1E;
+    --text: #F5F0E8; --muted: #5A5A5A; --lime: #C9F53B;
+    --lime-dark: #b0d832; --border: rgba(245,240,232,0.08);
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Cabinet Grotesk', sans-serif; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2.4rem 2rem;
+    animation: fadeUp 0.6s ease both;
+    max-width: 680px; margin: 2.5rem auto 4rem;
+  }
+
+  .form-page-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 2rem; font-weight: 800; color: var(--text);
+    letter-spacing: -0.03em; margin-bottom: 0.3rem;
+  }
+
+  .form-page-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 2rem; }
+
+  .form-label {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 700; font-size: 0.78rem;
+    color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .section-mini-label {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 0.8rem; margin-top: 1.6rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .section-mini-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,245,59,0.15); }
+
+  .form-control, .form-select {
+    border: 1px solid var(--border); border-radius: 8px;
+    font-family: 'Cabinet Grotesk', sans-serif; font-size: 0.9rem;
+    padding: 0.65rem 1rem; background: var(--surface2) !important;
+    color: var(--text) !important; transition: border-color 0.2s;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: var(--lime); box-shadow: 0 0 0 2px rgba(201,245,59,0.1); outline: none;
+  }
+
+  .form-control::placeholder { color: var(--muted) !important; }
+  .form-select option { background: var(--surface2); color: var(--text); }
+
+  .input-icon-wrap { position: relative; }
+  .input-icon-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.88rem; pointer-events: none; }
+  .input-icon-wrap .form-control { padding-left: 2.6rem; }
+
+  .btn-add {
+    background: var(--lime); color: #0A0A0A; border: none;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 0.95rem;
+    border-radius: 8px; padding: 0.8rem 2.4rem;
+    transition: all 0.2s; cursor: pointer; width: 100%;
+    letter-spacing: 0.02em;
+  }
+  .btn-add:hover { background: var(--lime-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,245,59,0.2); }
+
+  .invalid-feedback { font-size: 0.78rem; color: #ff6b6b; }
+  .valid-feedback { font-size: 0.78rem; color: var(--lime); }
+</style>
+
+<div class="container">
+  <div class="form-card">
+    <h2 class="form-page-title">List Your Space</h2>
+    <p class="form-page-sub">Fill in the details and start hosting today</p>
+
     <form method="post" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
       <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" name="listing[title]" placeholder="enter your title" required>
-      <div class="valid-feedback">Title Looks Good</div>
-      <div class="invalid-feedback">Title is required</div> 
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" name="listing[title]" placeholder="e.g. Cozy Himalayan Cottage" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Title is required</div>
       </div>
-    
-      <div class="mb-3"> 
-       <label for="description" class="form-label">Description</label>
-      <textarea name="listing[description]" class="form-control" required ></textarea>
-     <div class="invalid-feedback">Short description required</div>   
-    </div>
-      
       <div class="mb-3">
-        <label for="image" class="form-label">Upload Image</label>
-       <input type="file" class="form-control" name="listing[image]" placeholder="enter image url" required>
+        <label class="form-label">Description</label>
+        <textarea name="listing[description]" class="form-control" rows="3" required placeholder="Describe your place..."></textarea>
+        <div class="invalid-feedback">Short description required</div>
       </div>
-      
       <div class="mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input class="form-control" name="listing[price]" placeholder="1200" required>
-      <div class="invalid-feedback">Enter a valid price</div>  
-    </div>
-      
-      <div class="row">
-        <div class="mb-3 col-md-4">
-      <label for="country" class="form-label">Country</label>
-      <input type="text" class="form-control" name="listing[country]" placeholder="add country" required>
-     <div class="invalid-feedback">Enter a country name</div>    
-    </div>
-      
-       <div class="mb-3 col-md-8">
-        <label for="location" class="form-label">Location</label>
-        <input type="text" class="form-control" name="listing[location]" placeholder="add location" required>
-       <div class="invalid-feedback">Enter a location</div> 
+        <label class="form-label">Upload Image</label>
+        <input type="file" class="form-control" name="listing[image]" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Price per Night (₹)</label>
+        <div class="input-icon-wrap">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          <input class="form-control" name="listing[price]" placeholder="1200" required>
+        </div>
+        <div class="invalid-feedback">Enter a valid price</div>
       </div>
 
-  <div class="mb-3">
-    <label class="form-label">Category</label>
-      <select name="listing[category]" class="form-select" required>
-        <option value="Trending">Trending</option>
-        <option value="Rooms">Rooms</option>
-       <option value="IconicCities">Iconic Cities</option>
-         <option value="Mountains">Mountains</option>
-       <option value="AmazingPools">Pools</option>
-          <option value="Camping">Camping</option>
-       <option value="Beach">Beach</option>
-    <option value="Farms">Farms</option>
-  </select>
-</div>
-
+      <p class="section-mini-label">Location</p>
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label">Country</label>
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-earth-asia"></i>
+            <input type="text" class="form-control" name="listing[country]" placeholder="India" required>
+          </div>
+          <div class="invalid-feedback">Enter a country</div>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label">City / Location</label>
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" class="form-control" name="listing[location]" placeholder="e.g. Manali, HP" required>
+          </div>
+          <div class="invalid-feedback">Enter a location</div>
+        </div>
       </div>
-      <br> <br>
-      <button class="btn btn-dark add-btn">Add</button>
-      <br> <br>
+
+      <div class="mb-4">
+        <label class="form-label">Category</label>
+        <select name="listing[category]" class="form-select" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Trending">🔥 Trending</option>
+          <option value="Rooms">🛏 Rooms</option>
+          <option value="IconicCities">🏙 Iconic Cities</option>
+          <option value="Mountains">⛰ Mountains</option>
+          <option value="AmazingPools">🏊 Pools</option>
+          <option value="Camping">⛺ Camping</option>
+          <option value="Beach">🏖 Beach</option>
+          <option value="Farms">🐄 Farms</option>
+        </select>
+      </div>
+
+      <button class="btn-add" type="submit">Add Listing <i class="fa-solid fa-arrow-right"></i></button>
     </form>
-    </div>
-    </div>
-  
+  </div>
+</div>

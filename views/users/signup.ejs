@@ -1,59 +1,160 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
-  <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap');
 
-    <h3 class="text-center mb-4">Signup on ApnaStay</h3>
+  :root {
+    --bg: #0A0A0A; --surface: #141414; --surface2: #1E1E1E;
+    --text: #F5F0E8; --muted: #5A5A5A; --lime: #C9F53B;
+    --lime-dark: #b0d832; --border: rgba(245,240,232,0.08);
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Cabinet Grotesk', sans-serif; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .auth-wrap {
+    min-height: 88vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .auth-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.6rem 2.2rem;
+    width: 100%; max-width: 420px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .auth-label {
+    display: inline-block;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--lime); border: 1px solid rgba(201,245,59,0.25);
+    padding: 3px 12px; border-radius: 4px; margin-bottom: 1rem;
+  }
+
+  .auth-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 2.2rem; font-weight: 800;
+    color: var(--text); letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 0.4rem;
+  }
+
+  .auth-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 2rem; }
+
+  .form-label {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 700; font-size: 0.75rem;
+    color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+
+  .form-control {
+    border: 1px solid var(--border); border-radius: 8px;
+    font-family: 'Cabinet Grotesk', sans-serif; font-size: 0.92rem;
+    padding: 0.7rem 1rem; background: var(--surface2) !important;
+    color: var(--text) !important; transition: border-color 0.2s;
+  }
+
+  .form-control:focus {
+    border-color: var(--lime);
+    box-shadow: 0 0 0 2px rgba(201,245,59,0.1);
+    outline: none;
+  }
+
+  .form-control::placeholder { color: var(--muted) !important; }
+  .invalid-feedback { font-size: 0.78rem; color: #ff6b6b; }
+
+  .input-icon-wrap { position: relative; }
+  .input-icon-wrap i {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted); font-size: 0.88rem; pointer-events: none;
+  }
+  .input-icon-wrap .form-control { padding-left: 2.6rem; }
+
+  .btn-auth {
+    background: var(--lime); color: #0A0A0A; border: none;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800;
+    font-size: 0.95rem; border-radius: 8px;
+    padding: 0.8rem; width: 100%;
+    transition: all 0.2s; cursor: pointer;
+    letter-spacing: 0.02em; margin-top: 0.5rem;
+  }
+
+  .btn-auth:hover {
+    background: var(--lime-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,245,59,0.2);
+  }
+
+  .auth-footer {
+    text-align: center; margin-top: 1.6rem;
+    font-size: 0.85rem; color: var(--muted);
+  }
+
+  .auth-footer a {
+    color: var(--lime); text-decoration: none; font-weight: 700;
+    transition: opacity 0.2s;
+  }
+
+  .auth-footer a:hover { opacity: 0.8; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.8rem 0; }
+</style>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <span class="auth-label">✦ Join ApnaStay</span>
+    <h2 class="auth-title">Create your<br>Account</h2>
+    <p class="auth-sub">Start exploring the best stays in India</p>
 
     <form method="POST" action="/signup" class="needs-validation" novalidate>
 
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input 
-          type="text"
-          id="username"
-          class="form-control"
-          name="username"
-          placeholder="Enter your username"
-          required
-        >
+        <div class="input-icon-wrap">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="username" class="form-control"
+            name="username" placeholder="choose a username" required>
+        </div>
         <div class="invalid-feedback">Username is required</div>
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input 
-          type="email"
-          id="email"
-          class="form-control"
-          name="email"
-          placeholder="Enter your email"
-          required
-        >
+        <div class="input-icon-wrap">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" id="email" class="form-control"
+            name="email" placeholder="you@example.com" required>
+        </div>
         <div class="invalid-feedback">Email is required</div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input 
-          type="password"
-          id="password"
-          class="form-control"
-          name="password"
-          placeholder="Enter your password"
-          required
-        >
+        <div class="input-icon-wrap">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="password" class="form-control"
+            name="password" placeholder="••••••••" required>
+        </div>
         <div class="invalid-feedback">Password is required</div>
       </div>
 
-      <button type="submit" class="btn btn-dark w-100 mt-3">Signup</button>
-
-      <div class="text-center mt-4">
-        Already have an account? 
-        <a href="/login" class="text-decoration-none">Login here</a>
-      </div>
+      <button type="submit" class="btn-auth">Create Account <i class="fa-solid fa-arrow-right"></i></button>
 
     </form>
 
+    <hr class="divider">
+
+    <div class="auth-footer">
+      Already have an account? <a href="/login">Login here</a>
+    </div>
   </div>
 </div>

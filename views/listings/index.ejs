@@ -1,248 +1,467 @@
 <% layout("layouts/boilerplate") %>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap');
+
+  :root {
+    --bg: #0A0A0A;
+    --surface: #141414;
+    --surface2: #1E1E1E;
+    --text: #F5F0E8;
+    --muted: #5A5A5A;
+    --lime: #C9F53B;
+    --lime-dark: #b0d832;
+    --border: rgba(245,240,232,0.08);
+    --card-radius: 12px;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Cabinet Grotesk', sans-serif; }
+
+
+  #hero-banner {
+    position: relative;
+    width: 100%; min-height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 4rem 1rem 3rem;
+    overflow: hidden;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,245,59,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,245,59,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    from { transform: translateY(0); }
+    to   { transform: translateY(60px); }
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,245,59,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    animation: heroIn 1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--lime); border: 1px solid rgba(201,245,59,0.3);
+    padding: 4px 14px; border-radius: 4px; margin-bottom: 1.2rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 800; color: var(--text);
+    line-height: 1.0; letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-tagline em {
+    font-style: normal;
+    color: var(--lime);
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1rem; font-weight: 400;
+    margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto;
+  }
+
+  .hero-search {
+    display: flex; align-items: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.5rem 0.5rem 1.4rem;
+    max-width: 500px; margin: 0 auto;
+    gap: 0.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .hero-search:focus-within { border-color: var(--lime); }
+
+  .hero-search input {
+    flex: 1; border: none; outline: none;
+    background: transparent;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 0.92rem; color: var(--text);
+  }
+
+  .hero-search input::placeholder { color: var(--muted); }
+
+  .hero-search button {
+    background: var(--lime);
+    border: none; color: #0A0A0A;
+    padding: 0.65rem 1.6rem; border-radius: 6px;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 800; font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-search button:hover { background: var(--lime-dark); transform: scale(1.03); }
+
+ 
   #filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1.8rem;
-    padding: 1.5rem 0;
+    display: flex; flex-wrap: wrap;
+    justify-content: center; align-items: center;
+    gap: 0.4rem 0.8rem; padding: 1.2rem 1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
   }
 
   .filter {
-    text-align: center;
-    opacity: 0.7;
-    transition: all 0.2s ease-in-out;
-    width: 80px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.2rem; padding: 0.5rem 0.8rem;
+    border-radius: 8px; cursor: pointer;
+    opacity: 0.4; transition: all 0.2s ease;
+    width: 72px; color: var(--text);
+    border: 1px solid transparent;
   }
 
   .filter:hover {
     opacity: 1;
-    cursor: pointer;
-    transform: scale(1.08);
+    background: var(--surface2);
+    border-color: var(--border);
+    transform: translateY(-2px);
   }
 
-  .filter i {
-    font-size: 1.2rem;
-    margin-bottom: 0.3rem;
-  }
+  .filter i { font-size: 1.1rem; color: var(--muted); transition: color 0.2s; }
+  .filter:hover i { color: var(--lime); }
 
   .filter p {
-    font-size: 0.82rem;
-    font-weight: 600;
-    margin: 0;
+    font-size: 0.7rem; font-weight: 700; margin: 0;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    letter-spacing: 0.05em; text-transform: uppercase;
   }
 
   .active-filter {
     opacity: 1 !important;
-    border-bottom: 2px solid black;
+    background: rgba(201,245,59,0.08) !important;
+    border-color: rgba(201,245,59,0.3) !important;
   }
 
-  .badge {
-    display: none;
+  .active-filter i { color: var(--lime) !important; }
+  .active-filter p { color: var(--lime); }
+
+  .tax-toggle {
+    font-size: 0.8rem; font-family: 'Cabinet Grotesk', sans-serif;
+    background: var(--surface2) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+  }
+
+  .form-check-input:checked { background-color: var(--lime); border-color: var(--lime); }
+  .form-check-label { color: var(--text) !important; }
+
+  .badge { display: none; }
+
+ 
+  .section-label {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--text); padding: 1.8rem 0 0.6rem;
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+
+  .listing-link { text-decoration: none; color: inherit; display: block; }
+
+  .card {
+    border: 1px solid var(--border) !important;
+    border-radius: var(--card-radius) !important;
+    overflow: hidden;
+    background: var(--surface) !important;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), border-color 0.3s, box-shadow 0.3s;
+    animation: cardIn 0.5s ease both;
+    animation-play-state: paused;
+  }
+
+  .card.visible { animation-play-state: running; }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,245,59,0.25) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,245,59,0.1) !important;
+  }
+
+  .card-img-wrapper { position: relative; overflow: hidden; }
+
+  .card-img-top {
+    height: 18rem; width: 100%; object-fit: cover;
+    transition: transform 0.6s ease; display: block;
+    filter: brightness(0.92);
+  }
+
+  .card:hover .card-img-top { transform: scale(1.05); filter: brightness(1); }
+
+  .card-wishlist {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border); border-radius: 6px;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s; font-size: 0.9rem; color: var(--muted);
+  }
+
+  .card-wishlist:hover { border-color: var(--lime); color: var(--lime); }
+  .card-wishlist.wishlisted { color: var(--lime); border-color: var(--lime); }
+
+  .card-badge-cat {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(10,10,10,0.75);
+    backdrop-filter: blur(8px);
+    color: var(--lime); font-size: 0.65rem;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 4px;
+    border: 1px solid rgba(201,245,59,0.2);
+  }
+
+  .card-body { padding: 1rem 1rem 1.1rem; background: var(--surface); }
+
+  .card-title-row {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem;
+  }
+
+  .card-title {
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 700;
+    font-size: 0.95rem; color: var(--text); line-height: 1.3; flex: 1;
+  }
+
+  .card-rating {
+    font-size: 0.78rem; color: var(--muted);
+    white-space: nowrap; display: flex; align-items: center; gap: 3px;
+  }
+
+  .card-rating i { color: var(--lime); font-size: 0.72rem; }
+
+  .card-price {
+    font-size: 0.88rem; font-weight: 500; color: var(--muted);
+  }
+
+  .card-price strong {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 800; color: var(--text); font-size: 1rem;
+  }
+
+ 
+  .pagination {
+    display: flex; justify-content: center;
+    align-items: center; gap: 0.4rem;
+    margin: 2.5rem 0 3rem; flex-wrap: wrap;
   }
 
   .pagination a {
-    padding: 8px 14px;
-    margin: 0 4px;
-    background: #222;
-    color: white;
+    padding: 8px 16px; border-radius: 6px;
+    background: var(--surface); color: var(--text);
     text-decoration: none;
-    border-radius: 6px;
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 700; font-size: 0.85rem;
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+
+  .pagination a:hover {
+    background: var(--lime); color: #0A0A0A;
+    border-color: var(--lime);
   }
 
   .pagination a.active {
-    background: crimson;
+    background: var(--lime); color: #0A0A0A; border-color: var(--lime);
   }
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 40px 0;
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: 576px) {
-    #filters {
-      overflow-x: auto;
-      white-space: nowrap;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    #filters::-webkit-scrollbar {
-      display: none;
-    }
-    .filter {
-      width: 70px;
-      display: inline-block;
-    }
-  }
+  .empty-state { text-align: center; padding: 5rem 1rem; }
+  .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--muted); display: block; }
+  .empty-state p { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1rem; color: var(--muted); }
 
   @media (max-width: 991px) {
     #filters {
-      overflow-x: auto;
-      white-space: nowrap;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+      overflow-x: auto; flex-wrap: nowrap;
+      justify-content: flex-start; padding-left: 1rem; scrollbar-width: none;
     }
-    #filters::-webkit-scrollbar {
-      display: none;
-    }
-    .filter {
-      width: 70px;
-      display: inline-block;
-    }
+    #filters::-webkit-scrollbar { display: none; }
+    .filter { min-width: 68px; }
+  }
+
+  @media (max-width: 576px) {
+    .hero-tagline { font-size: 2.6rem; }
+    .hero-search { max-width: 92vw; }
   }
 </style>
 
-<div id="filters">
-  <div
-    class="filter <%= category === 'Trending' ? 'active-filter' : '' %>"
-    data-category="Trending"
-  >
-    <i class="fa-solid fa-fire"></i>
-    <p>Trending</p>
-  </div>
-  <div
-    class="filter <%= category === 'Rooms' ? 'active-filter' : '' %>"
-    data-category="Rooms"
-  >
-    <i class="fa-solid fa-bed"></i>
-    <p>Rooms</p>
-  </div>
-  <div
-    class="filter <%= category === 'IconicCities' ? 'active-filter' : '' %>"
-    data-category="IconicCities"
-  >
-    <i class="fa-solid fa-mountain-city"></i>
-    <p>Iconic</p>
-  </div>
-  <div
-    class="filter <%= category === 'Mountains' ? 'active-filter' : '' %>"
-    data-category="Mountains"
-  >
-    <i class="fa-solid fa-mountain"></i>
-    <p>Mountains</p>
-  </div>
-  <div
-    class="filter <%= category === 'AmazingPools' ? 'active-filter' : '' %>"
-    data-category="AmazingPools"
-  >
-    <i class="fa-solid fa-person-swimming"></i>
-    <p>Pools</p>
-  </div>
-  <div
-    class="filter <%= category === 'Camping' ? 'active-filter' : '' %>"
-    data-category="Camping"
-  >
-    <i class="fa-solid fa-campground"></i>
-    <p>Camping</p>
-  </div>
-  <div
-    class="filter <%= category === 'Beach' ? 'active-filter' : '' %>"
-    data-category="Beach"
-  >
-    <i class="fa-solid fa-umbrella-beach"></i>
-    <p>Beach</p>
-  </div>
-  <div
-    class="filter <%= category === 'Farms' ? 'active-filter' : '' %>"
-    data-category="Farms"
-  >
-    <i class="fa-solid fa-cow"></i>
-    <p>Farms</p>
-  </div>
 
-  <div class="tax-toggle border rounded-pill p-3 ms-3">
-    <div class="form-check form-switch form-check-reverse">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="switchCheckDefault"
-      />
-      <label class="form-check-label" for="switchCheckDefault"
-        >Include Taxes</label
-      >
+<div id="hero-banner">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-label"><i class="fa-solid fa-wand-magic-sparkles"></i> India's boldest stays</div>
+    <h1 class="hero-tagline">Find Your<br><em>Apna Stay</em></h1>
+    <p class="hero-sub">Mountains, beaches, farms & everything in between</p>
+    <div class="hero-search">
+      <i class="fa-solid fa-magnifying-glass" style="color:var(--muted);font-size:0.9rem;"></i>
+      <input type="text" placeholder="Where do you want to go?" id="heroSearchInput" />
+      <button onclick="handleHeroSearch()">Search <i class="fa-solid fa-search"></i></button>
     </div>
   </div>
 </div>
 
-<div class="container pt-3">
-  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-3">
-    <% allListings.forEach((listing, i) => { let gst = Math.floor(Math.random()
-    * 15) + 5; %>
-    <a href="/listings/<%= listing._id %>" class="listing-link">
-      <div class="col p-2">
-        <div class="card">
-          <img
-            src="<%= listing.image.url.replace('/upload', '/upload/w_600,q_auto,f_auto') %>"
-            loading="lazy"
-            class="card-img-top"
-            style="height: 20rem; object-fit: cover"
-          />
-          <div class="card-body px-3 py-2">
-            <p class="card-title mb-0"><b><%= listing.title %></b></p>
-            <p class="mb-0">
-              ₹ <%= listing.price.toLocaleString("en-IN") %> / night <% if(i % 2
-              !== 0){ %>
-              <span class="badge text-bg-secondary"><%= gst %>% GST</span>
-              <% } %>
-            </p>
+
+<div id="filters">
+  <div class="filter <%= category === 'Trending'     ? 'active-filter' : '' %>" data-category="Trending">
+    <i class="fa-solid fa-fire"></i><p>Trending</p>
+  </div>
+  <div class="filter <%= category === 'Rooms'        ? 'active-filter' : '' %>" data-category="Rooms">
+    <i class="fa-solid fa-bed"></i><p>Rooms</p>
+  </div>
+  <div class="filter <%= category === 'IconicCities' ? 'active-filter' : '' %>" data-category="IconicCities">
+    <i class="fa-solid fa-mountain-city"></i><p>Iconic</p>
+  </div>
+  <div class="filter <%= category === 'Mountains'    ? 'active-filter' : '' %>" data-category="Mountains">
+    <i class="fa-solid fa-mountain"></i><p>Mountains</p>
+  </div>
+  <div class="filter <%= category === 'AmazingPools' ? 'active-filter' : '' %>" data-category="AmazingPools">
+    <i class="fa-solid fa-person-swimming"></i><p>Pools</p>
+  </div>
+  <div class="filter <%= category === 'Camping'      ? 'active-filter' : '' %>" data-category="Camping">
+    <i class="fa-solid fa-campground"></i><p>Camping</p>
+  </div>
+  <div class="filter <%= category === 'Beach'        ? 'active-filter' : '' %>" data-category="Beach">
+    <i class="fa-solid fa-umbrella-beach"></i><p>Beach</p>
+  </div>
+  <div class="filter <%= category === 'Farms'        ? 'active-filter' : '' %>" data-category="Farms">
+    <i class="fa-solid fa-cow"></i><p>Farms</p>
+  </div>
+</div>
+
+
+<div class="container pt-2 pb-2">
+  <p class="section-label">
+    <% if(category){ %><%= category %> Stays
+    <% } else { %>Available Stays<% } %>
+    <span style="font-size:0.75rem;font-weight:500;color:var(--muted);margin-left:0.4rem;">(<%= allListings.length %>)</span>
+  </p>
+
+  <% if(allListings.length === 0){ %>
+    <div class="empty-state">
+      <i class="fa-solid fa-house-crack"></i>
+      <p>No listings found in this category.</p>
+    </div>
+  <% } else { %>
+  <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
+    <% allListings.forEach((listing, i) => {
+         let gst = Math.floor(Math.random() * 15) + 5;
+         let ratings = [4.2, 4.5, 4.7, 4.8, 4.9, 5.0];
+         let fakeRating = ratings[i % ratings.length];
+    %>
+    <a href="/listings/<%= listing._id %>" class="listing-link col">
+      <div class="card h-100">
+        <div class="card-img-wrapper">
+          <img src="<%= listing.image.url.replace('/upload', '/upload/w_600,q_auto,f_auto') %>"
+            loading="lazy" class="card-img-top" alt="<%= listing.title %>" />
+          <% if(listing.category){ %>
+            <span class="card-badge-cat"><%= listing.category %></span>
+          <% } %>
+          <button class="card-wishlist" onclick="toggleWish(event, this)">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <p class="card-title mb-0"><%= listing.title %></p>
+            <span class="card-rating"><i class="fa-solid fa-star"></i> <%= fakeRating %></span>
           </div>
+          <p class="card-price mb-0">
+            <strong>₹ <%= listing.price.toLocaleString("en-IN") %></strong>
+            <span style="color:var(--muted);font-size:0.82rem;"> / night</span>
+          </p>
         </div>
       </div>
     </a>
     <% }) %>
   </div>
+  <% } %>
 </div>
 
-<div class="pagination mt-4 mb-5">
+
+<div class="pagination mt-2 mb-5">
   <% if(currentPage > 1){ %>
-  <a
-    href="/listings?page=<%= currentPage - 1 %><%= category ? '&category=' + category : '' %>"
-    >⬅ Prev</a
-  >
-  <% } %> <% for(let i = 1; i <= totalPages; i++){ %>
-  <a
-    href="/listings?page=<%= i %><%= category ? '&category=' + category : '' %>"
-    class="<%= currentPage === i ? 'active' : '' %>"
-    ><%= i %></a
-  >
-  <% } %> <% if(currentPage < totalPages){ %>
-  <a
-    href="/listings?page=<%= currentPage + 1 %><%= category ? '&category=' + category : '' %>"
-    >Next ➡</a
-  >
+    <a href="/listings?page=<%= currentPage-1 %><%= category ? '&category='+category : '' %>">← Prev</a>
+  <% } %>
+  <% for(let i=1; i<=totalPages; i++){ %>
+    <a href="/listings?page=<%= i %><%= category ? '&category='+category : '' %>" class="<%= currentPage===i?'active':'' %>"><%= i %></a>
+  <% } %>
+  <% if(currentPage < totalPages){ %>
+    <a href="/listings?page=<%= currentPage+1 %><%= category ? '&category='+category : '' %>">Next <i class="fa-solid fa-arrow-right"></i></a>
   <% } %>
 </div>
 
 <script>
-  let priceToggle = document.getElementById("switchCheckDefault");
-  if (priceToggle) {
-    priceToggle.addEventListener("click", () => {
-      let badges = document.getElementsByClassName("badge");
-      for (let badge of badges) {
-        badge.style.display = priceToggle.checked ? "inline-block" : "none";
-      }
-    });
-  }
 
-  let filters = document.querySelectorAll(".filter");
-  filters.forEach((filter) => {
-    filter.addEventListener("click", () => {
-      let category = filter.dataset.category;
-      window.location.href = `/listings?category=${category}`;
+  document.querySelectorAll(".filter").forEach(f => {
+    f.addEventListener("click", () => {
+      window.location.href = `/listings?category=${f.dataset.category}`;
     });
   });
+
+  function toggleWish(e, btn) {
+    e.preventDefault(); e.stopPropagation();
+    btn.classList.toggle("wishlisted");
+    const icon = btn.querySelector("i");
+    icon.classList.toggle("fa-regular");
+    icon.classList.toggle("fa-solid");
+    btn.style.transform = "scale(1.3)";
+    setTimeout(() => btn.style.transform = "", 200);
+  }
+
+  function handleHeroSearch() {
+    const val = document.getElementById("heroSearchInput").value.trim();
+    window.location.href = val ? `/listings?search=${encodeURIComponent(val)}` : "/listings";
+  }
+
+  document.getElementById("heroSearchInput").addEventListener("keydown", e => {
+    if(e.key === "Enter") handleHeroSearch();
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll(".card").forEach(card => observer.observe(card));
 </script>
