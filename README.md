@@ -1,91 +1,76 @@
-<p align="center">
-  <h1 align="center">🏡 ApnaStay</h1>
-  <p align="center">
-    An AI-powered full stack travel platform where users can discover, review, and share unique stays.
-  </p>
-</p>
+# 🌴 ApnaStay - AI-Powered Travel & Stay Platform
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
-  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
-  <img src="https://img.shields.io/badge/EJS-B4CA65?style=for-the-badge&logo=ejs&logoColor=black" />
-</p>
+> **A full-stack Airbnb-inspired platform** - with real AI features built in.  
+> Discover unique stays, generate listings with AI, search in natural language, and summarize reviews instantly.
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-apna--stay--eosin.vercel.app-brightgreen?style=for-the-badge)](https://apna-stay-eosin.vercel.app/listings)
+[![GitHub](https://img.shields.io/badge/GitHub-nikitatale-black?style=for-the-badge&logo=github)](https://github.com/nikitatale/ApnaStay)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nikita_Tale-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/nikita-tale)
 
 ---
 
-## 🌐 Live Demo
-👉 [Open ApnaStay](https://apna-stay-eosin.vercel.app/listings)
+## 🖼️ Demo Preview
+
+![ApnaStay Preview](public/assets/apnastay_preview.png)
 
 ---
 
-## ✨ Features
+## 🤖 AI-Powered Features (Groq LLaMA 3.1)
 
-- 🔐 **User Authentication** — Secure login/signup with Passport.js
-- 🏠 **Full CRUD** — Create, read, update, delete listings
-- 🤖 **AI Description Generator** — Auto-generate listing descriptions using Groq LLaMA AI
-- 🔍 **AI Smart Search** — Natural language search ("beach under ₹2000")
-- 📝 **AI Review Summarizer** — Summarize all reviews in 2-3 lines using AI
-- 🗂️ **Category Filters** — Browse by Trending, Beach, Mountains, Camping & more
-- ⭐ **Reviews & Ratings** — Star rating system with Starability
-- 🗺️ **Map Integration** — Google Maps embed on listing detail page
-- 📸 **Image Uploads** — Cloudinary integration via Multer
-- 💬 **Flash Messages** — Real-time success/error notifications
-- 📱 **Fully Responsive** — Mobile-friendly dark theme UI
-- ✅ **Form Validation** — Server-side with Joi, client-side with Bootstrap
+| Feature | How It Works |
+|---|---|
+| ✨ **Description Generator** | Enter title + location → AI auto-generates listing description |
+| 🔍 **Smart Natural Language Search** | Type *"beach under ₹2000"* → AI finds best matching listings |
+| 📝 **Review Summarizer** | 3+ reviews → AI generates a 2-3 line summary instantly |
 
 ---
 
-## 🚀 Highlights
+## ✨ What Makes This Project Stand Out
 
-✔ Full Stack MVC Architecture  
-✔ Authentication & Authorization  
-✔ AI Integration (Groq LLaMA 3.1)  
-✔ Image Upload System (Cloudinary)  
-✔ Smart Natural Language Search  
-✔ Responsive UI  
-✔ Production Deployment
+| Feature | Description |
+|---|---|
+| 🔐 **User Authentication** | Secure login/signup with Passport.js |
+| 🏠 **Full CRUD** | Create, read, update, delete listings |
+| 🗂️ **Category Filters** | Browse by Trending, Beach, Mountains, Camping & more |
+| ⭐ **Reviews & Ratings** | Star rating system with Starability |
+| 🗺️ **Map Integration** | Google Maps embed on listing detail page |
+| 📸 **Image Uploads** | Cloudinary integration via Multer |
+| 📱 **Fully Responsive** | Mobile-friendly dark theme UI |
+| ✅ **Form Validation** | Server-side with Joi + client-side with Bootstrap |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | EJS, Bootstrap, Custom CSS |
-| Backend | Node.js, Express.js |
-| Database | MongoDB, Mongoose |
-| Authentication | Passport.js (Local Strategy) |
-| File Uploads | Multer + Cloudinary |
-| Session | express-session + connect-mongo |
-| Validation | Joi |
-| AI Features | Groq API (LLaMA 3.1) |
-| Architecture | MVC |
+```
+Frontend     → EJS, Bootstrap, Custom CSS
+Backend      → Node.js, Express.js
+Database     → MongoDB, Mongoose
+Auth         → Passport.js (Local Strategy)
+File Uploads → Multer + Cloudinary
+AI Features  → Groq API (LLaMA 3.1)
+Validation   → Joi
+Architecture → MVC
+Deployment   → Vercel
+```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started Locally
 
 ### Prerequisites
 - Node.js v18+
 - MongoDB Atlas account
 - Cloudinary account
-- Groq API key (free at console.groq.com)
+- Groq API key (free at [console.groq.com](https://console.groq.com))
 
 ### Installation
 ```bash
-# Clone the repo
 git clone https://github.com/nikitatale/ApnaStay.git
 cd ApnaStay
-
-# Install dependencies
 npm install
-
-# Setup environment variables
 cp .env.example .env
 # Fill in your .env values
-
-# Run the app
 node app.js
 ```
 
@@ -102,23 +87,13 @@ GROQ_API_KEY=your_groq_api_key
 ---
 
 ## 📁 Project Structure
+
 ```
 ApnaStay/
-├── models/          # Mongoose schemas
-│   ├── listing.js
-│   ├── review.js
-│   └── user.js
-├── routes/          # Express routers
-│   ├── listings.js
-│   ├── reviews.js
-│   └── user.js
+├── models/          # Mongoose schemas (listing, review, user)
+├── routes/          # Express routers (listings, reviews, user)
 ├── views/           # EJS templates
-│   ├── layouts/
-│   ├── listings/
-│   └── includes/
-├── public/          # Static assets
-│   ├── css/
-│   └── js/
+├── public/          # Static assets (css, js)
 ├── utils/           # Helper functions
 ├── middleware.js
 └── app.js
@@ -126,21 +101,23 @@ ApnaStay/
 
 ---
 
-## 🤖 AI Powered Features (Groq LLaMA 3.1)
+## 💡 Key Learnings & Challenges
 
-### 1. Description Generator
-Host fills title + location → clicks **"✨ Generate with AI"** → description auto-fills using LLaMA AI.
-
-### 2. Smart Search
-User types natural language query like *"romantic mountain stay under ₹3000"* → AI matches best listings from database.
-
-### 3. Review Summarizer
-Listings with 3+ reviews show **"✨ Summarize"** button → AI generates a 2-3 line summary of all guest feedback.
+- Integrated **Groq LLaMA 3.1 API** for 3 distinct AI features in one app
+- Built **natural language search** — parsing user intent to query MongoDB
+- Implemented **MVC architecture** keeping codebase clean and scalable
+- Handled **image uploads** with Multer + Cloudinary pipeline
+- Built full **auth & authorization** — users can only edit/delete their own listings
 
 ---
 
-## 👨‍💻 Author
+## 👩‍💻 About the Developer
 
-**Nikita Tale**
-- GitHub: [@NikitaTale](https://github.com/nikitatale)
-- LinkedIn: [NikitaTale](https://www.linkedin.com/in/nikita-tale)
+**Nikita Tale** - Full-Stack Developer specializing in MERN Stack  
+Open to work! Let's connect →  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://www.linkedin.com/in/nikita-tale)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?logo=github)](https://github.com/nikitatale)
+
+---
+
+> ⭐ If you found this project interesting, please star it - it helps a lot!
