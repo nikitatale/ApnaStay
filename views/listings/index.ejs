@@ -415,13 +415,13 @@
 
 <div class="pagination mt-2 mb-5">
   <% if(currentPage > 1){ %>
-    <a href="/listings?page=<%= currentPage-1 %><%= category ? '&category='+category : '' %>">← Prev</a>
+    <a href="/listings?page=<%= currentPage-1 %><%= category ? '&category='+category : '' %>"><i class="fa-solid fa-arrow-left"></i></a>
   <% } %>
   <% for(let i=1; i<=totalPages; i++){ %>
     <a href="/listings?page=<%= i %><%= category ? '&category='+category : '' %>" class="<%= currentPage===i?'active':'' %>"><%= i %></a>
   <% } %>
   <% if(currentPage < totalPages){ %>
-    <a href="/listings?page=<%= currentPage+1 %><%= category ? '&category='+category : '' %>">Next <i class="fa-solid fa-arrow-right"></i></a>
+    <a href="/listings?page=<%= currentPage+1 %><%= category ? '&category='+category : '' %>"> <i class="fa-solid fa-arrow-right"></i></a>
   <% } %>
 </div>
 
