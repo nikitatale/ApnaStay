@@ -98,8 +98,8 @@
     font-weight: 700; font-size: 0.85rem;
     color: var(--text);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.42rem 1.2rem;
+    border-radius: 999px;
+    padding: 0.6rem 1.5rem;
     background: transparent;
     transition: all 0.2s;
     text-decoration: none;
@@ -115,8 +115,9 @@
     font-weight: 700; font-size: 0.85rem;
     color: #0A0A0A;
     background: var(--lime);
-    border: none; border-radius: 6px;
-    padding: 0.42rem 1.2rem;
+    border: none; 
+    border-radius: 999px;
+    padding: 0.6rem 1.5rem;
     transition: all 0.2s;
     text-decoration: none;
   }
@@ -221,7 +222,7 @@
           <a class="nav-link" href="/listings">Explore</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/listings/new"><i class="fa-solid fa-user"></i> &nbsp; Become a Host</a>
+          <a class="nav-link" href="/listings/new">Become a Host</a>
         </li>
 
         <% if(!currUser) { %>
